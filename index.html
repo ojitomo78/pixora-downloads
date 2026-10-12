@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Pixora | Descargar</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 32px 16px; min-height: 100vh;
+      display: grid; place-items: center;
+      background: #0b0b0f; color: #f5f5fa;
+      font-family: system-ui, sans-serif;
+    }
+    main {
+      width: min(100%, 460px); text-align: center;
+      background: #15151d; border: 1px solid #30303d;
+      border-radius: 24px; padding: 28px;
+    }
+    .logo {
+      width: 92px; height: 92px; object-fit: cover;
+      border-radius: 22px;
+    }
+    h1 { margin-bottom: 6px; }
+    p { color: #b8b8c8; line-height: 1.5; }
+    .btn {
+      display: block; width: 100%; padding: 14px;
+      margin: 12px 0; border-radius: 12px;
+      background: #7460ed; color: white;
+      text-decoration: none; font-weight: 700;
+      border: 0; cursor: pointer; font-size: 16px;
+    }
+    .secondary { background: #292936; }
+    code { overflow-wrap: anywhere; color: #c5baff; }
+    #qrcode {
+      display: inline-block; background: white;
+      padding: 12px; border-radius: 12px; margin: 12px;
+      min-width: 20px; min-height: 20px;
+    }
+    small { color: #9999ad; }
+  </style>
+</head>
+<body>
+<main>
+  <!-- Opcional: añade logo.png al repositorio -->
+  <img class="logo" src="logo.png" alt="Pixora"
+       onerror="this.style.display='none'">
+
+  <h1>Pixora</h1>
+  <p>Descarga la aplicación y conéctate desde cualquier red.</p>
+
+  <!-- Reemplaza estos dos enlaces por los reales -->
+  <a class="btn" href="PEGA_AQUI_EL_ENLACE_DEL_APK">
+    Descargar para Android · APK
+  </a>
+  <a class="btn" href="PEGA_AQUI_EL_ENLACE_DEL_INSTALADOR">
+    Descargar para Windows · EXE
+  </a>
+
+  <hr style="border-color:#30303d; margin:28px 0">
+
+  <h3>Servidor de Pixora</h3>
+  <p><code id="server"></code></p>
+  <button class="btn secondary" onclick="copyServer()">
+    Copiar dirección del servidor
+  </button>
+  <p id="status" aria-live="polite"></p>
+
+  <hr style="border-color:#30303d; margin:28px 0">
+
+  <h3>Escanea para abrir este portal</h3>
+  <div id="qrcode"></div>
+  <p><small>Escanea el QR con la cámara del teléfono.</small></p>
+</main>
+
+<script>
+  const SERVER =
+    "https://applied-swiftness-flatware.ngrok-free.dev";
+
+  document.getElementById("server").textContent = SERVER;
+
+  async function copyServer() {
+    const status = document.getElementById("status");
+    try {
+      await navigator.clipboard.writeText(SERVER);
+      status.textContent = "¡Dirección copiada!";
+    } catch {
+      status.textContent =
+        "No se pudo copiar automáticamente. Mantén pulsada la dirección para copiarla.";
+    }
+  }
+
+  if (window.QRCode) {
+    new QRCode(document.getElementById("qrcode"), {
+      text: window.location.href,
+      width: 200,
+      height: 200,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  } else {
+    document.getElementById("qrcode").textContent =
+      "No se pudo cargar el QR. Recarga la página con internet.";
+  }
+</script>
+</body>
+</html>
